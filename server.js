@@ -1,22 +1,26 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-// create express app
+const express = require('express')
+const cors    = require('cors');
 const app = express();
-// Setup server port
 const port = process.env.PORT || 5000;
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
-// parse requests of content-type - application/json
-app.use(bodyParser.json())
-// define a root route
-app.get('/', (req, res) => {
-  res.send("Hello World");
+const routerApi = require('./src/routes/index.router');
+const bodyParser = require('body-parser');
+//Dependencias de aplicación
+app.use(express.json());
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use((err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.message = err.message || "Internal Server Error";
+  res.status(err.statusCode).json({
+    message: err.message,
+  });
 });
-// Require employee routes
-const songRoutes = require('./src/routes/song.routes')
-// using as middleware
-app.use('/api/v1/songs', songRoutes)
-// listen for requests
+routerApi(app);
 app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
-});
+  console.log(`Example app listening on port ${port}`)
+})
