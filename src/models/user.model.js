@@ -10,7 +10,7 @@ var User = function(user){
     this.created_at       = new Date();
     this.updated_at       = new Date();
 };
-User.create = function (req, res, next) {
+User.create = function (req, foto_perfil, res, next) {
   dbConn.query(
     `SELECT * FROM usuarios WHERE LOWER(nombre_usuario) = LOWER(${dbConn.escape(
       req.body.nombre_usuario
@@ -35,7 +35,7 @@ User.create = function (req, res, next) {
               )},${dbConn.escape(
                 req.body.email
               )},${dbConn.escape(
-                req.body.foto_perfil
+                foto_perfil
               )}, ${dbConn.escape(hash)},now(), now())`,
               (err, result) => {
                 if (err) {

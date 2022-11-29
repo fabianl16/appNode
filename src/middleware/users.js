@@ -1,26 +1,8 @@
 const Joi                       = require('joi');
 const { joiPasswordExtendCore } = require('joi-password');
 const joiPassword               = Joi.extend(joiPasswordExtendCore);
-const multiparty                = require('multiparty');
-const cloudinary        = require("../../cloudinary");
 module.exports = {
-  validateRegister: async (req, res, next) => {
-    let form = new multiparty.Form();
-    let x = null;
-    form.parse(req, function(err, fields, files) {
-      // Object.keys(fields).forEach(function(name) {
-      //      console.log('got field named ' + name);
-      //  });
-      x = {
-        "nombre_usuario":fields.nombre_usuario[0],
-        "email":fields.email[0],
-        "foto_perfil":fields.foto_perfil,
-        "contrasena":fields.contrasena[0],
-        "contrasena_repeat":fields.contrasena_repeat[0]
-      }
-      // console.log(fields.nombre_usuario);
-      console.log(x);
-   });
+  validateRegister: (req, res, next) => {
     const data = req.body;
     const {error} = schema.validate(data);
     if(error){
@@ -40,10 +22,8 @@ const schema = Joi.object({
               .required(),  
   email: Joi.string()
               .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
-  foto_perfil: Joi.string()
-          .min(3)
-          .max(250)
-          .required(),
+  // foto_perfil: Joi.string()
+  //             .optional(),
   contrasena: joiPassword
           .string()
           .minOfNumeric(2)
