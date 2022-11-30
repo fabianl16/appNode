@@ -47,11 +47,8 @@ const signUpSchema = Joi.object({
           .required()
 });
 const loginSchema = Joi.object({
-  nombre_usuario: Joi.string()
-              .alphanum()
-              .min(3)
-              .max(30)
-              .required(),  
+  email: Joi.string()
+          .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),  
   contrasena: joiPassword
           .string()
           .minOfNumeric(2)

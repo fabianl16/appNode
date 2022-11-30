@@ -4,8 +4,6 @@ const jwt = require("jsonwebtoken");
 var   dbConn = require('./../../config/db.config');
 var User = function(user){
     this.nombre_usuario   = user.nombre_usuario;
-    this.foto_perfil      = user.foto_perfil;
-    // this.contrasena       = bcrypt.hash(user.contrasena,10);
     this.email            = user.email;
     this.created_at       = new Date();
     this.updated_at       = new Date();
@@ -57,21 +55,16 @@ User.create = function (req, foto_perfil, res, next) {
 };
 User.logIn = function(req, res, next) {
   dbConn.query(
-    `SELECT * FROM usuarios WHERE nombre_usuario = ${dbConn.escape(req.body.nombre_usuario)};`,
+    `SELECT * FROM usuarios WHERE email = ${dbConn.escape(
+      req.body.email
+    )}`,
     (err, result) => {
-      // user does not exists
-      if (err) {
-        throw err;
-        return res.status(400).send({
-          msg: err
-        });
-      }
       if (!result.length) {
-        return res.status(401).send({
-          msg: 'Username or password is incorrect!'
+        return res.status(409).send({
+          msg: 'El correo electronico no existe'
         });
-      }
-      // check password
+      } else {
+        // check password
       bcrypt.compare(
         req.body.contrasena,
         result[0]['contrasena'],
@@ -106,8 +99,30 @@ User.logIn = function(req, res, next) {
           });
         }
       );
+      }
     }
   );
+
+
+
+  // dbConn.query(
+  //   `SELECT * FROM usuarios WHERE email = ${dbConn.escape(req.body.email)};`,
+  //   (err, result) => {
+  //     // user does not exists
+  //     console.log(err);
+  //     if (err) {
+  //       // throw err;
+  //       return res.status(400).send({
+  //         msg: err
+  //       });
+  //     }
+  //     if (!result.length) {
+  //       return res.status(401).send({
+  //         msg: 'Username or password is incorrect!'
+  //       });
+  //     }
+  //   }
+  // );
 };
 User.findAll = function(result){
   dbConn.query("SELECT * FROM usuarios", function (err, res) {
@@ -143,9 +158,15 @@ User.update = function(id_usuario, usuario, foto_perfil, result){
     }
     });
 };
-
-User.delete = function(req, res, next){
-
-
+User.delete = function(id_usuario, result){
+  dbConn.query("DELETE FROM usuarios WHERE id_usuario = ?", [id_usuario], function (err, res) {
+    if(err) {
+      console.log("error: ", err);
+      result(null, err);
+    }
+    else{
+      result(null, res);
+    }
+    });
 };
 module.exports= User;
