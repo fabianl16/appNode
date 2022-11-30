@@ -16,9 +16,12 @@ if(req.body.constructor === Object && Object.keys(req.body).length === 0){
     res.status(400).send({ error:true, message: 'Please provide all required field' });
 }else{
 Review.create(new_review, function(err, review) {
-    if (err)
-    res.send(err);
-    res.json({error:false,message:"Review added successfully!",data:review});
+    if (err){
+        res.status(400).send({ error:true, message: err });
+    }else{
+        res.json({error:false,message:"Review added successfully!",data:review});
+    }
+
 });
 }
 };

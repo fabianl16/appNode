@@ -12,16 +12,17 @@ var Review = function(review){
   this.updated_at       = new Date();
 };
 Review.create = function (newReview, result) {
-dbConn.query("INSERT INTO reviews set ?", newReview, function (err, res) {
-if(err) {
-  console.log("error: ", err);
-  result(err, null);
-}
-else{
-  console.log(res.insertId);
-  result(null, res.insertId);
-}
-});
+  dbConn.query("INSERT INTO reviews set ?", newReview, function (err, res) {
+    if(err) {
+      console.log("error: ", err);
+      result(err, null);
+    }
+    else{
+      console.log(res.insertId);
+      result(null, res.insertId);
+    }
+    });
+
 };
 Review.findByUserId = function (id_usuario, result) {
 var query = 'SELECT * FROM reviews INNER JOIN songs ON songs.id_song = reviews.song_id INNER JOIN tags ON tags.id_tag = reviews.tag_id WHERE reviews.id_usuario = ?';
@@ -68,4 +69,5 @@ else{
 }
 });
 };
+
 module.exports= Review;

@@ -2,12 +2,8 @@
 const User                      = require('../models/user.model');
 const cloudinary                = require("../../cloudinary");
 const Joi                       = require('joi');
-const { joiPasswordExtendCore } = require('joi-password');
-const joiPassword               = Joi.extend(joiPasswordExtendCore);
-
 exports.findAll = function(req, res) {
 User.findAll(function(err, song) {
-  console.log('controller')
   if (err)
   res.send(err);
   console.log('res', song);
@@ -39,7 +35,7 @@ const foto_perfil = upload.secure_url;
 
 };
 exports.delete = function(req, res) {
-  User.delete(req.params.id, function(err, Tag) {
+  User.delete(req.params.id, function(err, Usuario) {
     if (err)
     res.send(err);
     res.json({ error:false, message: 'Usuario successfully deleted' });

@@ -1,6 +1,6 @@
 'use strict';
-const User = require('../models/user.model');
-const cloudinary = require("../../cloudinary");
+const User                      = require('../models/user.model');
+const cloudinary                = require("../../cloudinary");
 const Joi                       = require('joi');
 const { joiPasswordExtendCore } = require('joi-password');
 const joiPassword               = Joi.extend(joiPasswordExtendCore);
@@ -26,7 +26,6 @@ exports.signUp = async function(req, res, next) {
     }
     User.create(req, foto_perfil, res, next);
 };
-
 const signUpSchema = Joi.object({
   nombre_usuario: Joi.string()
               .alphanum()
