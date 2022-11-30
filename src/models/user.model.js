@@ -5,7 +5,7 @@ var   dbConn = require('./../../config/db.config');
 var User = function(user){
     this.nombre_usuario   = user.nombre_usuario;
     this.foto_perfil      = user.foto_perfil;
-    this.contrasena       = bcrypt.hash(user.contrasena,10);
+    // this.contrasena       = bcrypt.hash(user.contrasena,10);
     this.email            = user.email;
     this.created_at       = new Date();
     this.updated_at       = new Date();
@@ -108,5 +108,44 @@ User.logIn = function(req, res, next) {
       );
     }
   );
+};
+User.findAll = function(result){
+  dbConn.query("SELECT * FROM usuarios", function (err, res) {
+    if(err) {
+      console.log("error: ", err);
+      result(null, err);
+    }
+    else{
+      console.log('tags : ', res);
+      result(null, res);
+    }
+    });
+
+};
+User.findById = function(id_usuario, result){
+  dbConn.query("SELECT * FROM usuarios WHERE id_usuario = ? ", id_usuario, function (err, res) {
+    if(err) {
+      console.log("error: ", err);
+      result(err, null);
+    }
+    else{
+      result(null, res);
+    }
+    });
+};
+User.update = function(id_usuario, usuario, foto_perfil, result){
+  dbConn.query("UPDATE usuarios SET nombre_usuario=?, foto_perfil=?, updated_at=now() WHERE id_usuario = ?", [usuario.nombre_usuario, foto_perfil, id_usuario], function (err, res) {
+    if(err) {
+      console.log("error: ", err);
+      result(null, err);
+    }else{
+      result(null, res);
+    }
+    });
+};
+
+User.delete = function(req, res, next){
+
+
 };
 module.exports= User;
