@@ -11,8 +11,21 @@ var Song = function(song){
   this.created_at       = new Date();
   this.updated_at       = new Date();
 };
-Song.create = function (newSong, result) {
-dbConn.query("INSERT INTO songs set ?", newSong, function (err, res) {
+Song.create = function (newSong, imagen_cancion, result) {
+
+dbConn.query(`INSERT INTO songs (song_title, year_launch, descripcion, tags, autor, imagen_cancion, created_at, updated_at) VALUES ( ${dbConn.escape(
+  newSong.song_title
+)},${dbConn.escape(
+  newSong.year_launch
+)},${dbConn.escape(
+  newSong.descripcion
+)}, ${dbConn.escape(
+  newSong.tags
+)},${dbConn.escape(
+  newSong.autor
+)}, ${dbConn.escape(
+  imagen_cancion
+)}, now(), now())`, function (err, res) {
 if(err) {
   console.log("error: ", err);
   result(err, null);

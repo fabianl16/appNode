@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const songController =   require('../controllers/song.controller');
+const uploader          = require('../middleware/multer.js');
 // Retrieve all song
 router.get('/all', songController.findAll);
 // Create a new song
-router.post('/create', songController.create);
+router.post('/create', uploader.single("imagen_cancion"), songController.create);
 // Retrieve a single song with id
 router.get('/find/:id', songController.findById);
 // Update a song with id
