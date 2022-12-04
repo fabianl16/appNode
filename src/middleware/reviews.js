@@ -23,6 +23,10 @@ const schema = Joi.object({
             .min(3)
             .max(250)
             .required(),
+    title: Joi.string()
+            .min(3)
+            .max(50)
+            .required(),
     hidden: Joi.number()
             .integer()
             .min(0)
