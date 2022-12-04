@@ -31,6 +31,13 @@ exports.findById = function(req, res) {
       res.json(comment);
     });
 };
+exports.findByReviewId = function(req, res) {
+  Comment.findByReviewId(req.params.id, function(err, comment) {
+    if (err)
+    res.send(err);
+    res.json(comment);
+  });
+};
 exports.update = function(req, res) {
       if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });

@@ -32,6 +32,13 @@ Review.findByUserId(req.params.id, function(err, review) {
     res.json(review);
 });
 };
+exports.findBySongId = function(req, res) {
+    Review.findBySongId(req.params.id, function(err, review) {
+        if (err)
+        res.send(err);
+        res.json(review);
+    });
+};
 exports.update = function(req, res) {
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
     res.status(400).send({ error:true, message: 'Please provide all required field' });

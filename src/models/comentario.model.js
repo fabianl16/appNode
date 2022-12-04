@@ -32,7 +32,6 @@ Comment.findById = function (id_comentario, result) {
     }
     });
 };
-
 Comment.findAll = function (result) {
     dbConn.query("Select * from comentarios", function (err, res) {
     if(err) {
@@ -45,7 +44,18 @@ Comment.findAll = function (result) {
     }
     });
 };
-
+Comment.findByReviewId = function (id_review, result) {
+  var query = 'SELECT * FROM comentarios INNER JOIN usuarios ON usuarios.id_usuario = comentarios.id_usuario INNER JOIN reviews ON reviews.id_review = comentarios.review_id WHERE review_id = ?';
+  dbConn.query(query, id_review, function (err, res) {
+  if(err) {
+    console.log("error: ", err);
+    result(err, null);
+  }
+  else{
+    result(null, res);
+  }
+  });
+};
 Comment.update = function(id_comentario, id_usuario, comment, result){
     dbConn.query("UPDATE comentarios SET comentario=?, updated_at = now() WHERE id_comentario =? AND id_usuario =?", [comment.comentario, id_comentario, id_usuario], function (err, res) {
     if(err) {
@@ -56,7 +66,6 @@ Comment.update = function(id_comentario, id_usuario, comment, result){
     }
     });
 };
-
 Comment.delete = function(id_comentario, result){
     dbConn.query("DELETE FROM comentarios WHERE id_comentario = ?", [id_comentario], function (err, res) {
     if(err) {
