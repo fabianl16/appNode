@@ -8,7 +8,7 @@ router.post('/create', commentController.create);
 // Retrieve a single comentario by id
 router.get('/find/:id', commentController.findById);
 // Retrieve a single comentario by id
-router.get('/findbyreview/:id', commentController.findById);
+router.get('/findbyreview/:id', commentController.findByReviewId);
 // Update a comentario with id
 router.put('/update/:id/:id_usuario', commentController.update);
 // Delete a comentario with id
