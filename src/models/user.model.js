@@ -11,7 +11,7 @@ var User = function(user){
 User.create = function (req, foto_perfil, res, next) {
   dbConn.query(
     `SELECT * FROM usuarios WHERE email = ${dbConn.escape(
-      req.body.nombre_usuario
+      req.body.email
     )}`,
     (err, result) => {
       if (result.length) {
