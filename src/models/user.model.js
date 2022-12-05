@@ -10,13 +10,13 @@ var User = function(user){
 };
 User.create = function (req, foto_perfil, res, next) {
   dbConn.query(
-    `SELECT * FROM usuarios WHERE LOWER(nombre_usuario) = LOWER(${dbConn.escape(
+    `SELECT * FROM usuarios WHERE email = ${dbConn.escape(
       req.body.nombre_usuario
-    )});`,
+    )}`,
     (err, result) => {
       if (result.length) {
         return res.status(409).send({
-          msg: 'This username is already in use!'
+          msg: 'This email is already in use!'
         });
       } else {
         // username is available
