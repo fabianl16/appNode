@@ -38,7 +38,7 @@ else{
 });
 };
 Review.findBySongId = function (id_song, result) {
-  var query = 'SELECT * FROM reviews INNER JOIN songs ON songs.id_song = reviews.song_id INNER JOIN tags ON tags.id_tag = reviews.tag_id WHERE reviews.song_id = ?';
+  var query = 'SELECT * FROM reviews INNER JOIN usuarios ON usuarios.id_usuario= reviews.id_usuario INNER JOIN songs ON songs.id_song = reviews.song_id INNER JOIN tags ON tags.id_tag = reviews.tag_id WHERE reviews.song_id = ?';
   dbConn.query(query, id_song, function (err, res) {
   if(err) {
     console.log("error: ", err);
