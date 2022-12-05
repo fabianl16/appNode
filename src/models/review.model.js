@@ -62,7 +62,7 @@ else{
 });
 };
 Review.update = function(id_review, id_usuario, review, result){
-dbConn.query("UPDATE reviews SET texto=?, updated_at = now() WHERE id_review = ? AND id_usuario = ?", [review.texto, id_review, id_usuario], function (err, res) {
+dbConn.query("UPDATE reviews SET texto=?, hidden=?, updated_at = now() WHERE id_review = ? AND id_usuario = ?", [review.texto, review.hidden, id_review, id_usuario], function (err, res) {
 if(err) {
   console.log("error: ", err);
   result(null, err);
